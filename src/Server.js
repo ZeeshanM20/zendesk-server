@@ -1,9 +1,14 @@
-const express = require('express');
+const express = require('express')
+const cors = require('cors');
+const { getTickets } = require('./tickets')
+
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World, from express');
-});
+app.use(cors());
+app.use(express.urlencoded());
+app.use(express.json());
 
-app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
+app.get('/tickets', getTickets);
+
+app.listen(port, () => console.log(`Server running on ${port}!`));
