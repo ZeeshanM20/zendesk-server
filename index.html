@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.2/tailwind.min.css">
+    <title></title>
+  </head>
+  <body class="bg-red-200">
+    <table>
+      <tbody id="container"></tbody>
+    </table>
+    <script>
+      async function tickets() {
+        const container = document.getElementById('container')
+        const response = await fetch('/tickets')
+        const {tickets} = await response.json()
+        // console.log(tickets);
+        // tickets.forEach(element => {
+        //   const ticketRow = document.createElement('tr')
+        //   const ticketData = document.createElement('td')
+        //   ticketName = element.name 
+        //   ticketRow.appendChild(ticketName)
+        //   ticketRow.textContent = JSON.stringify(element, null, 4)
+        //   container.appendChild(ticketRow)
+        //   // console.log(element);
+        // });
+        var tr = "<tr>"
+
+        for (var i = 0; i < tickets.length; i++) {
+          // container.appendChild(tickets[i].description)
+          console.log(tickets);
+          tr += "<td>" + tickets[i].submitter_id + "</td>" + "<td>" + tickets[i].Subject + "</td>" + "<td>" + tickets[i].status + "</td>" + "<td>" + tickets[i].priority + "</td>" + "</tr>"
+          // tr += "<td>" + tickets[i].submitter_id + tickets[i].Subject + tickets[i].status + tickets[i].priority + "</td>" + "</tr>"
+          container.innerHTML += tr;
+        }
+
+
+      } 
+      window.addEventListener('load', tickets)
+    </script>
+  </body>
+</html>
