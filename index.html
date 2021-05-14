@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.2/tailwind.min.css">
+    <title></title>
+  </head>
+  <body class="bg-red-200">
+    <table>
+      <tbody id="container"></tbody>
+    </table>
+    <button id="prev" onclick="prevPage()">Previous</button>
+    <button id="next" onclick="nextPage()">Next</button>
+
+    <script>
+      var previousLink = null
+      var nextLink = null
+      async function tickets() {
+        const response = await fetch('/tickets')
+        const {tickets, links} = await response.json()
+        previousLink = links.prev
+        nextLink = links.next
+        displayTickets(tickets)
+        console.log(tickets);
+      }
+
+      function displayTickets(tickets) {
+        const container = document.getElementById('container')
+        container.innerHTML = ""
+        tickets.forEach(element => {
+          var tr = "<tr>" + "<td>" + element.id + "</td>" +"<td>"  + element.submitter_id + "</td>" + "<td>" + element.Subject + "</td>" + "<td>" + element.status + "</td>" + "<td>" + element.priority + "</td>" + "</tr>"
+          container.innerHTML += tr;
+        })
+      } 
+
+      async function prevPage() {
+        try{
+          const response = await fetch('/prevPage?' + new URLSearchParams({
+            url: previousLink,
+           }))
+          const {tickets, links} = await response.json()
+          previousLink = links.prev
+          nextLink = links.next
+          displayTickets(tickets)
+        }
+        catch (error) {
+          console.log(error)
+        }
+      }
+
+      async function nextPage() {
+        try{
+          const response = await fetch('/nextPage?' + new URLSearchParams({
+            url: nextLink,
+           }))
+          const {tickets, links} = await response.json()
+          previousLink = links.prev
+          nextLink = links.next
+          displayTickets(tickets)
+        }
+        catch (error) {
+          console.log(error)
+        }
+      }
+      window.addEventListener('load', tickets)
+    </script>
+  </body>
+</html>

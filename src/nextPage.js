@@ -1,8 +1,6 @@
 const fetch = require('node-fetch')
 
-const getTickets = async () => {
-  let url = 'https://zeeshan-mujtaba.zendesk.com/api/v2/tickets.json?page[size]=25'
-
+const getNextPage = async (url) => {
   let options = {
     method: 'GET',
     headers: {'Authorization': 'Basic ' + btoa('zmujtaba96@gmail.com:Zendesk123')}
@@ -16,4 +14,4 @@ const getTickets = async () => {
   }
 }
 
-module.exports = { getTickets }
+module.exports = { getNextPage }
